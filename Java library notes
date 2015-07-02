@@ -1,0 +1,11 @@
+dom4j - Java XML parser (dom4j-1.6.1.jar)
+	http://dom4j.sourceforge.net/dom4j-1.6.1/guide.html
+	* dependent on jaxen-1.1.6.jar
+	
+Guice - Dependency Injection (guice-4.0-no_aop.jar)
+	https://github.com/google/guice
+	* dependent on javax.inject.jar
+	* dependent on Guava - Google's core libraries (guava-18.0.jar)
+		+ required for com.google.common.collect.Sets, Annotations
+	
+Orange Extensions - Apple Stub Library (OrangeExtensions-1.2.jar)
