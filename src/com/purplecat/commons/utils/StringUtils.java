@@ -1,5 +1,7 @@
 package com.purplecat.commons.utils;
 
+import java.text.Collator;
+import java.util.Comparator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -340,5 +342,19 @@ public class StringUtils {
 			}
 		}
 		return(sValue);
+	}
+	
+	public static class LocaleStringComparor implements Comparator<String>  {
+		private Collator _collator;
+		
+		public LocaleStringComparor(Locale locale) {
+			_collator = Collator.getInstance(locale);
+			_collator.setDecomposition(Collator.SECONDARY);
+		}
+
+		@Override
+		public int compare(String o1, String o2) {
+			return _collator.compare(o1, o2);
+		}		
 	}
 }

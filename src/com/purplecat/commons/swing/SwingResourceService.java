@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,6 +18,7 @@ import org.xml.sax.SAXException;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.purplecat.commons.IResourceService;
+import com.purplecat.commons.Resources;
 import com.purplecat.commons.logs.ILoggingService;
 
 public class SwingResourceService implements IResourceService {
@@ -24,6 +26,7 @@ public class SwingResourceService implements IResourceService {
 	
 	String _resourcePath;	
 	Map<Integer, String> _stringCache;
+	Map<Integer, String> _commonStringCache;
 	Map<Integer, String> _imageCache;
 	ILoggingService _logger;
 	
@@ -34,14 +37,25 @@ public class SwingResourceService implements IResourceService {
 		
 		_stringCache = new HashMap<Integer, String>();
 		_imageCache = new HashMap<Integer, String>();
+		_commonStringCache = new HashMap<Integer, String>();
 		
-		//String sResourceClass = String.format("com.purplecat.%s.Resources", appName);
+		//Strings
 		String sXmlLocation = String.format("/%s/data/strings_labels.xml", resourcePath.replaceAll("\\.", "/").toLowerCase());
 		loadItemMapFromXml(resourcePath, sXmlLocation, "string", _stringCache);
 		
+		//Images
 		sXmlLocation = String.format("/%s/data/images.xml", resourcePath.replaceAll("\\.", "/").toLowerCase());
 		loadItemMapFromXml(resourcePath, sXmlLocation, "image", _imageCache);
-		//SwingFileManager.loadItemMapFromXml("com.purplecat.commons.Resources", "/com/purplecat/commons/resources/strings_labels.xml", "string", mCache);
+		
+		//Common strings
+		//TODO: move to localization file
+		_commonStringCache.put(Resources.string.lblCancel, "Cancel");
+		_commonStringCache.put(Resources.string.lblNext, "Next");
+		_commonStringCache.put(Resources.string.lblOkay, "Okay");
+		_commonStringCache.put(Resources.string.lblPrevious, "Previous");
+//		String commonResourcePath = "com.purplecat.commons.Resources";
+//		sXmlLocation = String.format("/%s/data/string_labels.xml", commonResourcePath.replaceAll("\\.", "/").toLowerCase());
+//		loadItemMapFromXml(commonResourcePath, sXmlLocation, "string", _commonStringCache);
 	}
 
 	@Override
@@ -51,6 +65,17 @@ public class SwingResourceService implements IResourceService {
 		}
 		else {
 			_logger.error(TAG, "Could not find matching string for id " + Integer.toHexString(id));
+			return "";
+		}
+	}
+
+	@Override
+	public String getCommonString(int id) {
+		if ( _commonStringCache.containsKey(id) ) {
+			return _commonStringCache.get(id);
+		}
+		else {
+			_logger.error(TAG, "Could not find matching common string for id " + Integer.toHexString(id));
 			return "";
 		}
 	}
@@ -118,5 +143,14 @@ public class SwingResourceService implements IResourceService {
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public Locale getLocaleFrom(int key) {
+		Locale locale = Locale.forLanguageTag(getString(key));
+		if ( locale == null ) {
+			locale = Locale.getDefault();
+		}
+		return locale;
 	}
 }

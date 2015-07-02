@@ -1,0 +1,46 @@
+<author dbid="3" version="1">
+ <firstname>Jane</firstname>
+ <lastname>Austen</lastname>
+ <filename>austen</filename>
+ <website>http://anewwebsite.com</website>
+ <book dbid="5">
+  <title hrefid="pride_and_prejudice">Pride and Prejudice</title>
+  <ebook type="">
+   &lt;a href=&quot;../eBooks/index.html&quot;&gt;read Online&lt;/a&gt;
+  </ebook>
+   <genres>
+     <genre>romance</genre>
+     <genre>classic</genre>
+   </genres>
+  <image>
+   pictures/pride_and_prejudice.jpg
+  </image>
+  <summary>&lt;p&gt;'It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.'&lt;/p&gt; &lt;p&gt;The opening of Jane Austen's ever-popular novel sets the tone of her sparkling comedy of manners and morals&lt;/p&gt; &lt;p&gt;There are five daughters in the Bennet family and marriage is the only career open to them. There is naturally much excitement when two young ment of good fortune move into the district. But before there can be a happy ending, the hero must conquer his overwhelming pride and Elizabeth, the spirited heroine, her prejudices against him. Only be taking the route to self-knowledge can they reach a mature understanding of each other and find lasting contentment.&lt;/p&gt;</summary>
+ </book>
+ <book dbid="6">
+  <title hrefid="sense_and_sensibility">Sense and Sensibility</title>
+   <genres>
+     <genre>romance</genre>
+     <genre>classic</genre>
+   </genres>
+  <image>
+   pictures/sense_and_sensibility.jpg
+  </image>
+  <other>
+   501-classic
+  </other>
+  <summary>&lt;p&gt;Unfairly deprived of their family inheritance by the grasping Mrs. John Dashwood and her husband, Elinor and Marianne Dashwood and their mother find themselves in greatly reduced circumstances.&lt;/p&gt; &lt;p&gt;Compelled to leave Norland in Sussex for Barton Cottage in Devonshire, the two sisters are soon accepted into their new society. Marianne, whose sweet radiance and open nature charm the roguish John Willoughby, is soon deeply in love. Elinor, whose disposition is more cautious and considered, who carefully conceals her emotions, is suffering the loss of Edward Ferrars whom she has left beind.&lt;/p&gt; &lt;p&gt;Despite their very different personalities, both sisters experience great sorrows in their affairs of the heart: Marianne is demonstrably wretched and Elinor allowing no one to see her private heartache. It is, however, the qualities common to them both – discernment, constancy and integrity in the face of the fecklessness of others – that allow them entry into a new life of peace and contentment.&lt;/p&gt;</summary>
+ </book>
+ <book dbid="34">
+  <title hrefid="champion_dog_prince_tom">Champion Dog: Prince Tom</title>
+  <other_authors>
+   Jean Fritz
+  </other_authors>
+   <genres>
+    <genre>bio</genre>
+   </genres>
+  <image>
+   pictures/champion_dog_prince_tom.jpg
+  </image>
+ </book>
+</author>

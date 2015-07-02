@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource>
+  <string name="lblCancel">Cancel</string>
+  <string name="lblNext">Next</string>
+  <string name="lblOkay">OK</string>
+  <string name="lblPrevious">Previous</string>
+</resource>
