@@ -167,7 +167,7 @@ public abstract class MyApplication implements IQuitAction {
 	}
 	
 	public void setDockImage(Image image) {
-		if ( isMacOS() ) {
+		if ( _toolbox.isMacOS() ) {
 			Application theApplication = Application.getApplication();			
 			if ( theApplication != null && image != null ) {
 				theApplication.setDockIconImage(image);
@@ -178,8 +178,16 @@ public abstract class MyApplication implements IQuitAction {
 		}
 	}
 	
-	public boolean isMacOS() {
-		return(!System.getProperty("os.name").toLowerCase().startsWith("win"));
+	public void setApplicateImages(ArrayList<Image> appIcons) {		
+		if ( mFrame != null && !_toolbox.isMacOS() ) {
+			mFrame.setIconImages(appIcons);
+		}
+		else {
+			int sz = appIcons.size();
+			if ( sz > 0 ) {
+				this.setDockImage(appIcons.get(sz-1));
+			}
+		}
 	}
 	
 	@Override 

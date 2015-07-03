@@ -175,7 +175,7 @@ public class Toolbox {
 		return(p);		
 	}
 	
-	public boolean setLookAndFeel(MyApplication app) {
+	public boolean setLookAndFeel() {
 		_logger.log(0, TAG, "Setting Look and Feel");
 		boolean valid = false;
 		String lookAndFeelName = UIManager.getSystemLookAndFeelClassName();
@@ -193,7 +193,7 @@ public class Toolbox {
 //				lookAndFeelName = testLookAndFeel;
 //			}
 			
-			if ( app.isMacOS() ) {
+			if ( isMacOS() ) {
 				_logger.log(0, TAG, "IS NOT WINDOWS!");
 				System.setProperty("com.apple.laf.useScreenMenuBar", "true");
 				System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Bookmarks");
@@ -203,7 +203,7 @@ public class Toolbox {
 			javax.swing.UIManager.setLookAndFeel(lookAndFeelName);
 
 
-			if ( app.isMacOS() ) {			
+			if ( isMacOS() ) {			
 				//Setting KeyStrokes so that Cmd+[C,V,X] works instead of Ctrl+[C,V,X] in text fields.
 				//TODO: verify this works - I'm having to use Ctrl on some fields but I can't remember which
 				InputMap im = (InputMap) UIManager.get("TextField.focusInputMap");
@@ -243,5 +243,18 @@ public class Toolbox {
 //TODO: If having repaint or UI lag issues, turn on.
 //		RepaintManager.setCurrentManager(new CheckThreadViolationRepaintManager());
 		return(valid);
+	}
+	
+	public boolean isMacOS() {
+		return(!System.getProperty("os.name").toLowerCase().startsWith("win"));
+	}
+	
+	public int getMetaControl() {
+		if ( isMacOS() ) {
+			return KeyEvent.META_DOWN_MASK;
+		}
+		else {
+			return KeyEvent.CTRL_DOWN_MASK;
+		}
 	}
 }

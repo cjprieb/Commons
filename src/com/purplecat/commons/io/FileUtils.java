@@ -10,10 +10,12 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class FileUtils {
 	public static final int 		BUFFER_SIZE = 0x2000;
 	public static final Charset 	UTF8 		= Charset.forName("UTF-8");
+	public static final String 		URL_START 	= "URL=";
 	
 	public static void copy(File source, File dest) throws IOException {
 		IOException error = null;
@@ -103,6 +105,25 @@ public class FileUtils {
 		else {
 			return lines;
 		}		
+	}
+	
+	/**
+	 * Parses the file looking for the first line starting with "URL="
+	 * 	If found, returns the value of "URL="
+	 *  Otherwise, returns an empty string ""; 
+	 * @param file - assumes a text-based .URL file (Internet Shortcut)
+	 * @return
+	 */
+	public static String parseInternetShortcut(File file) throws IOException {
+		String url = "";
+		List<String> allLines = FileUtils.readAllLines(file);
+		if ( allLines != null && allLines.size() > 0 ) {
+			Optional<String> match = allLines.stream().filter(line -> line.startsWith(URL_START)).findFirst();
+			if ( match.isPresent() ) {
+				url = match.get().substring(URL_START.length());
+			}
+		}
+		return(url);
 	}
 
 }

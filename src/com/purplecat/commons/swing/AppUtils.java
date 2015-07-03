@@ -1,10 +1,6 @@
 package com.purplecat.commons.swing;
-import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-
-import javax.swing.JFrame;
 
 import com.apple.eawt.AppEvent.QuitEvent;
 import com.apple.eawt.OpenFilesHandler;
@@ -19,18 +15,6 @@ public class AppUtils {
 	}
 	
 	public interface IDragDropAction extends FileDrop.Listener, OpenFilesHandler {}
-	
-	public static void setApplicationIcons(MyApplication app, JFrame frame, ArrayList<Image> list) {		
-		if ( frame != null && !app.isMacOS() ) {
-			frame.setIconImages(list);
-		}
-		else {
-			int sz = list.size();
-			if ( sz > 0 ) {
-				app.setDockImage(list.get(sz-1));
-			}
-		}
-	}
 	
 	public static class QuitOnCloseWindowListener extends WindowAdapter implements QuitHandler, Runnable {
 		IQuitAction mQuit;
