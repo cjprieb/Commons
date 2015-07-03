@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="package" author="true" classpath="lib/OrangeExtensions-1.2.jar:lib/guava-18.0.jar:lib/guice-4.0-no_aop.jar:lib/javax.inject.jar:dom4j-1.6.1/dom4j-1.6.1.jar:/eclipse 4.4.0/plugins/org.junit_4.11.0.v201303080030/junit.jar:lib:/eclipse 4.4.0/plugins/org.hamcrest.core_1.3.0.v201303031735.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.purplecat.tests,com.purplecat.commons.swing.dragdrop,com.purplecat.commons.tests,com.purplecat.commons.xmltests,com.purplecat.commons.threads,com.purplecat.commons.logs,com.purplecat.commons,com.purplecat.commons.extensions,com.purplecat.commons.io,com.purplecat.commons.utils,com.purplecat.commons.swing.renderer,com.purplecat.commons.swing" source="1.8" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>
