@@ -40,6 +40,17 @@ public class GetRandom {
 		return builder.toString();
 	}
 
+	public static String getPhraseString(int length) {
+		StringBuilder builder = new StringBuilder();
+		while ( builder.length() < length ) {
+			if ( builder.length() > 0 ) {
+				builder.append(" ");
+			}
+			builder.append(getString(getInteger(2, 8)));
+		}
+		return builder.toString();
+	}
+
 	public static char getLetter() {
 		return (char)((_random.nextBoolean() ? 'a' : 'A') + _random.nextInt(26));
 	}
