@@ -9,6 +9,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import com.google.inject.Singleton;
+
+@Singleton
 public class FileLog implements ILoggingService {
 	
 	private boolean _logToConsole = false;

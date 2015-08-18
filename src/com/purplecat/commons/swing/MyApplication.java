@@ -1,7 +1,9 @@
 package com.purplecat.commons.swing;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
@@ -164,6 +166,24 @@ public abstract class MyApplication implements IQuitAction {
 			_logging.log(1, TAG, "location/x " + x);
 			_logging.log(1, TAG, "location/y " + y);
 		}
+	}
+	
+	protected void savePreferences(Preferences prefs, boolean setDimensions) {
+		_logging.log(0, TAG, "saving app preferences");		
+		
+		Dimension d = mFrame.getSize();
+		prefs.node("size").putInt("width", d.width);
+		prefs.node("size").putInt("height", d.height);
+		_logging.log(1, TAG, "size/width " + d.width);
+		_logging.log(1, TAG, "size/height " + d.height);
+		
+		Point p = mFrame.getLocation();
+		prefs.node("location").putInt("x", p.x);
+		prefs.node("location").putInt("y", p.y);
+		_logging.log(1, TAG, "location/x " + p.x);
+		_logging.log(1, TAG, "location/y " + p.y);
+		
+		prefs.putInt("extendedState", mFrame.getExtendedState());
 	}
 	
 	public void setDockImage(Image image) {
