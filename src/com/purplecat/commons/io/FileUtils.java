@@ -1,11 +1,13 @@
 package com.purplecat.commons.io;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.LinkedList;
@@ -105,6 +107,29 @@ public class FileUtils {
 		else {
 			return lines;
 		}		
+	}
+	
+	public static void writeAllText(File file, String text) throws IOException {
+		IOException error = null;
+
+		FileOutputStream stream = null;
+		BufferedWriter bw = null;
+
+	    try {
+	        stream = new FileOutputStream( file );
+			bw = new BufferedWriter(new OutputStreamWriter(stream, UTF8), BUFFER_SIZE);
+			bw.write(text);
+	    }
+	    catch (IOException e) {
+	    	error = e;
+	    }
+	    finally {
+	    	if ( bw != null ) bw.close();
+	    	if ( stream != null ) stream.close();
+	    }
+		if ( error != null ) {
+			throw error;
+		}
 	}
 	
 	/**

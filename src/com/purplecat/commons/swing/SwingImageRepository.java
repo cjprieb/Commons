@@ -25,19 +25,26 @@ public class SwingImageRepository implements IImageRepository {
 	final IResourceService _resources;
 	final String _projectName;
 	
-	HashMap<String, ImageIcon> _map;
-	ImageIcon[][] _timerIcons = new ImageIcon[8][4];
+	private HashMap<String, ImageIcon> _map;
+	private ImageIcon[][] _timerIcons = new ImageIcon[8][4];
 	
 	@Inject
 	public SwingImageRepository(ILoggingService logger, IResourceService resources, @Named("Project Path") String projectName) {
 		_logger = logger;
 		_resources = resources;
 		_projectName = projectName;
+		_map = new HashMap<String, ImageIcon>();
 	}
 
 	@Override
 	public ImageIcon getImage(int key) {
-		return getImageResource(_resources.getImageFile(key));
+		try {
+			return getImageResource(_resources.getImageFile(key));
+		}
+		catch (NullPointerException e) {
+			_logger.error(TAG, "Error getting image: " + key, e);
+		}
+		return null;
 	}
 
 	/**
@@ -102,6 +109,33 @@ public class SwingImageRepository implements IImageRepository {
 		
 		return(getTimerIcon(fileName, x, y));		
 	}
+
+	@Override
+	public ImageIcon getRadioButtonIcon(int key, BorderType type, int borderColor, int bgColor) {
+		String mapKey = String.format("%s-%s-%d-%d",key,type,borderColor,bgColor);
+		if ( _map.containsKey(mapKey) ) {
+			return _map.get(mapKey);
+		}
+		ImageIcon image = createRadioButtonImage(key, type, borderColor, bgColor);
+		if ( image != null ) {
+			_map.put(mapKey, image);
+		}
+		return image;
+	}
+	
+	protected ImageIcon createRadioButtonImage(int key, BorderType type, int borderColor, int bgColor) {
+		ImageIcon icon = getImage(key);
+		if ( icon != null ) {
+			if ( borderColor >= 0 ) {
+				icon = addBorder(icon, type, borderColor);				
+			}
+			
+			if ( bgColor >= 0 ) {
+				icon = addBackground(icon, type, bgColor);
+			}
+		}
+		return(icon);
+	}
 	
 	/**
 	 * 
@@ -110,10 +144,6 @@ public class SwingImageRepository implements IImageRepository {
 	 */
 	protected ImageIcon getImageResource(String fileName) {
 		ImageIcon image = null;
-		
-		if ( _map == null ) {
-			_map = new HashMap<String, ImageIcon>();
-		}
 		
 		if ( _map.containsKey(fileName) ) {
 			image = _map.get(fileName);
@@ -211,5 +241,44 @@ public class SwingImageRepository implements IImageRepository {
 		}
 		return(image);
 	}
-
+	
+	private ImageIcon addBackground(ImageIcon icon, BorderType type, int color) {
+		if ( icon != null ) {
+			BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+			Graphics graphics = image.getGraphics();			
+			graphics.setColor(new Color(color));
+			if ( type == BorderType.Circular ) {
+				graphics.fillOval(0, 0, icon.getIconWidth(), icon.getIconHeight());
+			}
+			else {
+				graphics.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());				
+			}
+			graphics.drawImage(icon.getImage(), 0, 0, null);
+			return(new ImageIcon(image, "colored bg " + icon.getDescription()));
+		}
+		else {
+			return(null);
+		}		
+	}
+	
+	private ImageIcon addBorder(ImageIcon icon, BorderType type, int color) {
+		if ( icon != null ) {
+			BufferedImage image = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+			Graphics graphics = image.getGraphics();
+		
+			graphics.drawImage(icon.getImage(), 0, 0, null);
+			
+			graphics.setColor(new Color(color));
+			if ( type == BorderType.Circular ) {
+				graphics.drawOval(0, 0, icon.getIconWidth()-1, icon.getIconHeight()-1);
+			}
+			else {
+				graphics.drawRect(0, 0, icon.getIconWidth()-1, icon.getIconHeight()-1);
+			}
+			return(new ImageIcon(image, "border " + icon.getDescription()));
+		}
+		else {
+			return(null);
+		}		
+	}
 }

@@ -14,4 +14,6 @@ public interface IImageRepository {
 	ImageIcon getDockImage(int imageKey, Color c, String text); 
 
 	ImageIcon getTimerIcon(String fileName, int mFrameNumber);
+	
+	ImageIcon getRadioButtonIcon(int key, BorderType type, int borderColor, int bgColor);
 }

@@ -20,4 +20,14 @@ public class Numbers {
 		}
 		return value;
 	}
+
+	public static double parseDouble(String s, double def) {
+		double value = def;
+		try {
+			value = Double.parseDouble(s);
+		} catch (NumberFormatException e) {
+			value = def;
+		}
+		return value;
+	}
 }
