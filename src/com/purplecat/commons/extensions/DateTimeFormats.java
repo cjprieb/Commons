@@ -145,7 +145,7 @@ public class DateTimeFormats {
 		}
 	}
 	
-	public static class ReverseDateComparor implements Comparator<Calendar> {
+	public static class ReverseCalendarComparor implements Comparator<Calendar> {
 		@Override
 		public int compare(Calendar s1, Calendar s2) {
 			int result = 0;
