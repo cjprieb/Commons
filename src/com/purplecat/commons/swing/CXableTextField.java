@@ -1,12 +1,9 @@
 package com.purplecat.commons.swing;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -21,15 +18,12 @@ import javax.swing.UIDefaults;
 
 public class CXableTextField extends JTextField {
 	private static Cursor POINTER_CURSOR = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-
-	protected boolean mShowAsButton		= true;
 	
 	//painting variables.
 	private JButton	mButton				= null;
 	private Point 	mXPoint 			= new Point();
 	private Cursor	mOldCursor 			= null;	
 	private boolean	mShowX				= false;
-	private boolean mMouseIsHovering	= false;
 	
 	private MouseListener mMouseListener = new MouseListener() {
 		@Override
@@ -70,26 +64,33 @@ public class CXableTextField extends JTextField {
 		}
 	};
 	
-	private ActionListener mButtonAction = new ActionListener() {
+	private MouseListener mButtonMouseListener = new MouseListener() {
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void mouseClicked(MouseEvent e) {
 			deleteText();
 		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			deleteText();
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
 	};
 	
-	public CXableTextField(int columns, boolean displayAsButton) {
-		super(columns);
-		mShowAsButton = displayAsButton;
-		setup();
-	}
-	
 	public CXableTextField(int columns) {
-		super(columns);
-		setup();
+		setup(columns);
 	}
 	
 	public CXableTextField() {
-		setup();
+		setup(-1);
 	}
 	
 	private void deleteText() {
@@ -107,15 +108,9 @@ public class CXableTextField extends JTextField {
 		}
 	}
 	
-	public boolean displayAsButton() {
-		return(mShowAsButton);
-	}
-	
-	public void setDisplayAsButton(boolean b) {
-		mShowAsButton = b;
-	}
-	
-	private void setup() {
+	private void setup(int columns) {
+		this.setColumns(columns);
+		
 		Insets zeroInsets = new Insets(0, 0, 0, 0);
 		mButton	= new JButton("x");
 		mButton.setMargin(zeroInsets);
@@ -124,9 +119,9 @@ public class CXableTextField extends JTextField {
 		def.put("Button.contentMargins", zeroInsets);
 		mButton.putClientProperty("Nimbus.Overrides", def);
 
-		mButton.addActionListener(mButtonAction);
 		this.addMouseListener(mMouseListener);
 		this.addMouseMotionListener(mMouseMotionListener);
+		mButton.addMouseListener(mButtonMouseListener);
 	}
 	
 	@Override
@@ -139,8 +134,6 @@ public class CXableTextField extends JTextField {
 		int topOffset 		= 3;
 		int rightOffset 	= 3;
 		int bottomOffset 	= 3;
-//		int width			= mButton.getPreferredSize().width;
-//		int height			= mButton.getPreferredSize().height;
 		int width			= (int)Math.ceil(stringWidth * 2.5);
 		int height			= getHeight() - (bottomOffset + topOffset);			
 		int x_coord 		= getWidth() - (rightOffset + width);
@@ -148,24 +141,10 @@ public class CXableTextField extends JTextField {
 		mXPoint.x = x_coord;
 		
 		if ( mShowX ) {
-			if ( mShowAsButton ) {	
-				add(mButton);
-				mButton.setBounds(x_coord, topOffset, width, height);	
-				super.paint(g);
-			}
-			else {						
-				super.paint(g);
-			
-				g.setColor(mMouseIsHovering ? Color.gray : Color.lightGray);
-				g.fillOval(x_coord, topOffset+3, width-1, height-6);				
-
-				g.setColor(Color.black);
-				//draw string
-				x_coord = getWidth() - (int)Math.ceil(stringWidth * 2) - rightOffset;
-				height = (int)(rect.getHeight());
-				bottomOffset = height + ( getHeight() - height ) / 2 - 1;
-				g.drawString(mButton.getText().toUpperCase(), x_coord, bottomOffset);
-			}			
+			System.out.println("showing button - x_coord: " + x_coord);
+			add(mButton);
+			mButton.setBounds(x_coord, topOffset, width, height);
+			super.paint(g);
 		}
 		else {
 			remove(mButton);
@@ -174,16 +153,16 @@ public class CXableTextField extends JTextField {
 	}
 	
 	private void changeCursor(Point e) {
-		mMouseIsHovering = ( e.x > mXPoint.x );
 		mShowX = ( e.x > mXPoint.x - 35 );
 		
 		if ( mShowX  && getCursor() != POINTER_CURSOR ) {
 			mOldCursor = getCursor();
-			setCursor(POINTER_CURSOR);			
+			setCursor(POINTER_CURSOR);
+			repaint();
 		}
 		else if ( !mShowX && getCursor() == POINTER_CURSOR ) {
-			setCursor(mOldCursor != null ? mOldCursor : Cursor.getDefaultCursor());			
+			setCursor(mOldCursor != null ? mOldCursor : Cursor.getDefaultCursor());		
+			repaint();	
 		}
-		repaint();
 	}
 }
