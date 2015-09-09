@@ -109,7 +109,9 @@ public class CXableTextField extends JTextField {
 	}
 	
 	private void setup(int columns) {
-		this.setColumns(columns);
+		if ( columns > 0 ) {
+			this.setColumns(columns);
+		}
 		
 		Insets zeroInsets = new Insets(0, 0, 0, 0);
 		mButton	= new JButton("x");
