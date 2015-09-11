@@ -1,4 +1,4 @@
-package com.purplecat.tests;
+package com.purplecat.commons;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

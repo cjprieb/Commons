@@ -1,4 +1,4 @@
-package com.purplecat.tests;
+package com.purplecat.commons;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
